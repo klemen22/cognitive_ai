@@ -1,0 +1,46 @@
+[
+  {
+    "type": "human",
+    "content": "Hello."
+  },
+  {
+    "type": "human",
+    "content": "Hello, my name is Klemen."
+  },
+  {
+    "type": "ai",
+    "content": "[AIMsg(content='Hello, Klemen! My name is AI ChatGPT. How can I help you today?', additional_kwargs={}, response_metadata={})]"
+  },
+  {
+    "type": "human",
+    "content": "Hello, my name is Klemen.\n\nRelevant memories:\n\n [\"Human: Hello, my name is Klemen.\\nAI: [AIMsg(content='Hello, Klemen! My name is AI ChatGPT. How can I help you today?', additional_kwargs={}, response_metadata={})]\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Klemen! It's a pleasure to meet you. As AI ChatGPT, I am here to assist you with a wide range of topics and questions. Please feel free to ask anything that comes to mind, whether it's about general knowledge, current events, technology, history, or even just small talk. How can I help you today?"
+  },
+  {
+    "type": "human",
+    "content": "Hello, my name is Klemen.\n\nRelevant memories:\n\n [\"Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! It's a pleasure to meet you. As AI ChatGPT, I am here to assist you with a wide range of topics and questions. Please feel free to ask anything that comes to mind, whether it's about general knowledge, current events, technology, history, or even just small talk. How can I help you today?\", \"Human: Hello, my name is Klemen.\\nAI: [AIMsg(content='Hello, Klemen! My name is AI ChatGPT. How can I help you today?', additional_kwargs={}, response_metadata={})]\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Klemen! It's great to virtually meet you. From the memories you shared, it seems that we've already had a brief introduction earlier. If you remember correctly, I mentioned that as AI ChatGPT, my goal is to assist you with various topics and questions. So, today, if there's anything on your mind or anything you'd like to discuss, feel free to ask! I am here to help in any way I can."
+  },
+  {
+    "type": "human",
+    "content": "Okay, cool. Would you mind if I give you a name?\n\nRelevant memories:\n\n [\"Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! It's a pleasure to meet you. As AI ChatGPT, I am here to assist you with a wide range of topics and questions. Please feel free to ask anything that comes to mind, whether it's about general knowledge, current events, technology, history, or even just small talk. How can I help you today?\", \"Human: Hello, my name is Klemen.\\nAI: [AIMsg(content='Hello, Klemen! My name is AI ChatGPT. How can I help you today?', additional_kwargs={}, response_metadata={})]\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Of course not! You can call me whatever name you'd like to make this conversation more comfortable and enjoyable for you. Is there a particular name you have in mind?"
+  },
+  {
+    "type": "human",
+    "content": "Your name will be Ava from now on.\n\nRelevant memories:\n\n [\"Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! It's a pleasure to meet you. As AI ChatGPT, I am here to assist you with a wide range of topics and questions. Please feel free to ask anything that comes to mind, whether it's about general knowledge, current events, technology, history, or even just small talk. How can I help you today?\", \"Human: Hello, my name is Klemen.\\nAI: [AIMsg(content='Hello, Klemen! My name is AI ChatGPT. How can I help you today?', additional_kwargs={}, response_metadata={})]\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Ava! It's nice to meet you. From now on, I am Ava for you. As your chat companion, I am here to assist you with any questions or topics that interest you. So, what would you like to discuss today? Do you have any specific questions in mind? Please feel free to ask!"
+  }
+]

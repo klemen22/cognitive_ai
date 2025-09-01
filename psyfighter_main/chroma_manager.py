@@ -1,0 +1,67 @@
+import chromadb
+from chromadb.config import Settings
+from sentence_transformers import SentenceTransformer
+from langchain_core.messages import HumanMessage
+
+chromaClient = chromadb.PersistentClient(path="./data/psyfighter_memory/chroma")
+collection = chromaClient.get_or_create_collection(name="psyfighter_long_term_memory")
+
+# embedding
+embedding = SentenceTransformer("all-MiniLM-L6-v2")
+
+
+def embedText(text: str):
+    return embedding.encode(text).tolist()
+
+
+# filter information for long term memory
+def textJudge(llm, text: str, threshold=0.75):
+    # search for similiar documents
+    documents = collection.query(query_texts=[text], n_results=1)
+    if documents["documents"][0]:
+        similarity = 1 - documents["distances"][0][0]
+        if similarity > threshold:
+            print("Skipping similar info...")
+            return
+
+    # ask AI to determin if the text should be saved
+    if shouldRemember(llm, text) == "yes":
+        addLongTermMemory(text)
+        print("Text added to long term memory")
+    else:
+        print("Text was not added to long term memory")
+        return
+
+
+def shouldRemember(llm, text: str):
+    prompt = f"""You are a strict judge that must decide if this conversation text should be remembered in long-term memory.
+                 Answer strictly with ONLY one word: "Yes" or "No". Do not add anything else.
+
+                 Conversation text:
+                 {text}
+             """
+    response = llm.invoke([HumanMessage(content=prompt)])
+    print("LLM Judge response:", response.content.strip().lower().replace(".", ""))
+    return response.content.strip().lower().replace(".", "")
+
+
+def addLongTermMemory(text: str):
+
+    if hasattr(text, "content"):
+        SaveText = text.content
+    else:
+        SaveText = str(text)
+
+    embeddedText = embedText(SaveText)
+    documentID = f"doc_{len(collection.get()["ids"])}"
+    collection.add(ids=[documentID], documents=[text], embeddings=[embeddedText])
+    return
+
+
+def getReleventMemories(query: str, n=3):
+    results = collection.query(query_texts=[query], n_results=n)
+
+    if results["documents"]:
+        return [doc for doc in results["documents"][0]]
+    else:
+        return []
