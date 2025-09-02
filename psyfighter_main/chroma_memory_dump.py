@@ -1,8 +1,7 @@
 # a simple code for inspecting the contents of long term memory
 import json
-from chroma_manager import (
-    collection,
-)  # use existing collection and client
+from itertools import zip_longest
+from chroma_manager import collection  # use existing collection and client
 
 output = "./data/psyfighter_memory/chroma_dump/chroma_memory_dump.json"
 
@@ -11,9 +10,9 @@ def memoryDump(output):
     allData = collection.get()
     filteredData = []
 
-    for x in allData["documents"]:
-        print(f"\n{x}")
-        filteredData.append(x)
+    for x, y in zip_longest(allData["ids"], allData["documents"]):
+        print(f"\n{x}, {y}")
+        filteredData.append(y)
 
     with open(output, "w", encoding="utf-8") as w:
         json.dump(filteredData, w, ensure_ascii=False, indent=2)
