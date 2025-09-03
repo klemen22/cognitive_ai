@@ -1,5 +1,6 @@
 [
   "Human: Hello, my name is Klemen.\nAI: [AIMsg(content='Hello, Klemen! My name is AI ChatGPT. How can I help you today?', additional_kwargs={}, response_metadata={})]",
   "Human: Hello, my name is Klemen.\nAI: Hello, Klemen! It's a pleasure to meet you. As AI ChatGPT, I am here to assist you with a wide range of topics and questions. Please feel free to ask anything that comes to mind, whether it's about general knowledge, current events, technology, history, or even just small talk. How can I help you today?",
-  "Human: Your name will be Ava from now on.\nAI: Hello, Ava! It's nice to meet you. From now on, I am Ava for you. As your chat companion, I am here to assist you with any questions or topics that interest you. So, what would you like to discuss today? Do you have any specific questions in mind? Please feel free to ask!"
+  "Human: Your name will be Ava from now on.\nAI: Hello, Ava! It's nice to meet you. From now on, I am Ava for you. As your chat companion, I am here to assist you with any questions or topics that interest you. So, what would you like to discuss today? Do you have any specific questions in mind? Please feel free to ask!",
+  "Human: Hello Ava, how are you today?\nAI: Hello, thank you for asking, im doing fine."
 ]

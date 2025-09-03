@@ -1,6 +1,6 @@
 # simple code for modifying collection from chroma database
 
-from chroma_manager import collection
+from chroma_manager import collection, addLongTermMemory
 
 
 def addMemory():
@@ -30,6 +30,7 @@ def addMemory():
         saveText = saveText + f"\nAI: "
 
     print(f"\nFinal text to save into database: \n\n{saveText}")
+    addLongTermMemory(saveText)
 
     return
 

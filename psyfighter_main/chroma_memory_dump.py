@@ -1,7 +1,7 @@
 # a simple code for inspecting the contents of long term memory
 import json
 from itertools import zip_longest
-from chroma_manager import collection  # use existing collection and client
+from chroma_manager import collection  # use existing collection
 
 output = "./data/psyfighter_memory/chroma_dump/chroma_memory_dump.json"
 
