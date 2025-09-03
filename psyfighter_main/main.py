@@ -6,7 +6,7 @@ from chroma_manager import getReleventMemories, textJudge
 # initialize LLM
 
 llm = ChatOpenAI(
-    openai_api_base="http://192.168.64.114:1234/v1",
+    openai_api_base="http://localhost:1234/v1",
     openai_api_key="something something...",  # dummy key
     model="llama2-13b-psyfighter2",
 )
