@@ -6,7 +6,7 @@ from chroma_manager import collection  # use existing collection
 output = "./data/psyfighter_memory/chroma_dump/chroma_memory_dump.json"
 
 
-def memoryDump(output):
+def memoryDump():
     allData = collection.get()
     filteredData = []
 
@@ -19,6 +19,22 @@ def memoryDump(output):
 
     print(f"\nMemory dump was saved to: {output}")
 
+    return filteredData
+
+
+def retrieveMemory():
+    allData = collection.get()
+    finalData = []
+
+    for y in allData["documents"]:
+        finalData.append(y)
+
+    return finalData
+
 
 if __name__ == "__main__":
-    memoryDump(output)
+    # memoryDump()
+
+    memories = retrieveMemory()
+    for x in memories:
+        print(f"\n{x}")

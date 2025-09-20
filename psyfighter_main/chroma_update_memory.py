@@ -35,9 +35,14 @@ def addMemory():
     return
 
 
-def editMemory():
-    # TODO: finish this function.
+def updateMemory(textID, newText):
+    collection.update(ids=textID, documents=newText)
     return
+
+
+def getTextID(text):
+    textID = collection.query(query_texts=[text], n_results=1)
+    return textID["ids"][0][0]
 
 
 def deleteMemory():
@@ -46,4 +51,4 @@ def deleteMemory():
 
 
 if __name__ == "__main__":
-    addMemory()
+    print("nothing to see here")
