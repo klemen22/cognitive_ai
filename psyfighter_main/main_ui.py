@@ -12,6 +12,10 @@ appText2 = "#94a1b2"
 appHighlight1 = "#7f5af0"  # also for button
 appHighlight2 = "#6c4bcf"
 
+# ----------------------------------------------------------------------------------------------#
+#                                     Global helper functions                                   #
+# ----------------------------------------------------------------------------------------------#
+
 
 # global button style
 def createButton(parent, text, command=None):
@@ -42,6 +46,7 @@ def textEntry(parent, text, width, command=None):
         font=CTkFont(family="Consolas", size=16),
         fg_color="transparent",
         hover_color=appHighlight2,
+        border_color=appHighlight2,
         border_width=0,
         width=width,
         command=command,
@@ -58,6 +63,11 @@ def createLabel(parent, text="Nothing", size=16):
         fg_color="transparent",
         text_color=appText1,
     )
+
+
+# ----------------------------------------------------------------------------------------------#
+#                                         Main menu                                             #
+# ----------------------------------------------------------------------------------------------#
 
 
 class MainMenu(CTkFrame):
@@ -89,12 +99,20 @@ class MainMenu(CTkFrame):
         button3.pack(pady=5)
 
 
+# ----------------------------------------------------------------------------------------------#
+#                                        Edit Memory                                            #
+# ----------------------------------------------------------------------------------------------#
+
+
 class EditMemory(CTkFrame):
     def __init__(self, parent, controller):
         super().__init__(parent, fg_color=appBG)
+        self.buttons = []
 
         label = createLabel(self, "Edit Memory", size=30)
         label.pack(pady=20)
+
+        self.controller = controller
 
         self.scrollFrame = CTkScrollableFrame(
             master=self,
@@ -107,10 +125,15 @@ class EditMemory(CTkFrame):
         )
         self.refresh_btn.pack(pady=5)
 
-        self.back_btn = createButton(
-            parent=self, text="Back", command=lambda: controller.showFrame("MainMenu")
+        self.backButton = createButton(
+            parent=self,
+            text="Back",
+            command=lambda: self.controller.showFrame("MainMenu"),
         )
-        self.back_btn.pack(pady=10)
+        self.backButton.pack(pady=10)
+
+        self.deleteButton = createButton(parent=self, text="Delete")
+        self.deleteButton.pack(pady=10)
 
         self.bind("<Configure>", self.onResize)
         self.loadMemory()
@@ -125,8 +148,38 @@ class EditMemory(CTkFrame):
 
         for i, x in enumerate(memories):
             text_short = x if len(x) <= 120 else x[:120] + "..."
-            button = textEntry(self.scrollFrame, text=text_short, width=buttonWidth)
+            button = textEntry(
+                self.scrollFrame,
+                text=text_short,
+                width=buttonWidth,
+            )
+            self.buttons.append(button)
+
+            button.bind(
+                "<Button-1>",
+                lambda event, memoryID=getTextID(x), bttn=button: self.selectMemory(
+                    memoryID=memoryID, event=event, button=bttn
+                ),
+            )
+
+            button.bind(
+                "<Double-Button-1>",
+                lambda event, fullText=x, memoryID=getTextID(
+                    x
+                ): self.controller.showFrame(
+                    "editText", text=fullText, memoryID=memoryID
+                ),
+            )
+
             button.pack(pady=5, anchor="center")
+
+    def selectMemory(self, memoryID, event, button):
+        self.selectedMemory = memoryID
+        print(f"Selected memory ID:{memoryID}")
+
+        for child in self.scrollFrame.winfo_children():
+            child.configure(border_width=0)
+        button.configure(border_width=2)
 
     def onResize(self, event):
         window_width = self.winfo_width()
@@ -138,8 +191,61 @@ class EditMemory(CTkFrame):
     def onShow(self):
         self.loadMemory()
 
-    def editSelected():
-        print()
+
+class editText(CTkFrame):
+    def __init__(self, parent, controller):
+        super().__init__(parent, fg_color=appBG)
+
+        self.controller = controller
+        self.label = createLabel(parent=self, text="Edit selected memory", size=30)
+        self.label.pack(pady=20)
+
+        self.textBox = CTkTextbox(
+            master=self,
+            height=300,
+            fg_color=appBG,
+            corner_radius=12,
+            border_color=appHighlight1,
+            border_width=2,
+            font=CTkFont(family="Consolas", size=16),
+            text_color=appText1,
+            wrap="word",
+        )
+        self.textBox.pack(pady=10, padx=40, expand=True, fill="both")
+
+        self.saveButton = createButton(
+            parent=self, text="Save", command=self.saveMemory
+        )
+        self.saveButton.pack(pady=20)
+        self.backButton = createButton(
+            parent=self, text="Back", command=lambda: controller.showFrame("EditMemory")
+        )
+        self.backButton.pack(pady=5)
+        self.bind("<Configure>", self.onResize)
+
+    def onResize(self, event):
+        window_width = self.winfo_width()
+        new_width = int(window_width * 0.8)
+        self.textBox.configure(width=new_width)
+
+    def onShow(self, text=None, memoryID=None):
+        # debug
+        print(f"Input Text:\n\n{text}")
+        print(f"Input Memory ID:\n\n{memoryID}")
+        self.memoryID = memoryID
+
+        self.textBox.delete("1.0", "end")
+        if text:
+            self.textBox.insert("1.0", text=text)
+
+    def saveMemory(self):
+        updatedText = self.textBox.get("1.0", "end-1c")
+        updateMemory(textID=self.memoryID, newText=updatedText)
+
+
+# ----------------------------------------------------------------------------------------------#
+#                                         Add Memory                                            #
+# ----------------------------------------------------------------------------------------------#
 
 
 class AddMemory(CTkFrame):
@@ -168,6 +274,11 @@ class BeginConversation(CTkFrame):
         back.pack()
 
 
+# ----------------------------------------------------------------------------------------------#
+#                                           Main                                                #
+# ----------------------------------------------------------------------------------------------#
+
+
 class App(CTk):
     def __init__(self):
         super().__init__()
@@ -182,7 +293,7 @@ class App(CTk):
 
         self.frames = {}
 
-        for F in (MainMenu, BeginConversation, AddMemory, EditMemory):
+        for F in (MainMenu, BeginConversation, AddMemory, EditMemory, editText):
             pageName = F.__name__
             frame = F(container, self)
             self.frames[pageName] = frame
@@ -190,12 +301,12 @@ class App(CTk):
 
         self.showFrame("MainMenu")
 
-    def showFrame(self, pageName):
+    def showFrame(self, pageName, **kwargs):
         frame = self.frames[pageName]
         frame.tkraise()
 
         if hasattr(frame, "onShow"):
-            frame.onShow()
+            frame.onShow(**kwargs)
 
 
 if __name__ == "__main__":

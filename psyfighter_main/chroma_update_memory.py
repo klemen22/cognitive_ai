@@ -45,8 +45,8 @@ def getTextID(text):
     return textID["ids"][0][0]
 
 
-def deleteMemory():
-    # TODO: finish this function.
+def deleteMemory(textID):
+    collection.delete(ids=[textID])
     return
 
 
