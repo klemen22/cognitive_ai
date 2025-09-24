@@ -1,6 +1,6 @@
 from customtkinter import *
 from chroma_memory_dump import retrieveMemory
-from chroma_update_memory import updateMemory, getTextID, deleteMemory, addMemory
+from chroma_update_memory import updateMemory, getTextID, deleteMemory
 
 # color scheme
 appBG = "#16161a"
@@ -53,7 +53,7 @@ def textEntry(parent, text, width, command=None):
     )
 
 
-# global label template
+# global label template (title)
 def createLabel(parent, text="Nothing", size=16):
     return CTkLabel(
         master=parent,
@@ -85,13 +85,13 @@ class MainMenu(CTkFrame):
 
         button2 = createButton(
             parent=self,
-            text="Edit Memory",
-            command=lambda: controller.showFrame("EditMemory"),
+            text="Add Memory",
+            command=lambda: controller.showFrame("AddMemory"),
         )
         button3 = createButton(
             parent=self,
-            text="Add Memory",
-            command=lambda: controller.showFrame("AddMemory"),
+            text="Edit Memory",
+            command=lambda: controller.showFrame("EditMemory"),
         )
 
         button1.pack(pady=5)
@@ -253,12 +253,73 @@ class AddMemory(CTkFrame):
         super().__init__(parent, fg_color=appBG)
 
         label = createLabel(self, "Add Memory", size=30)
-        label.pack(pady=40)
+        label.pack(pady=30)
 
-        back = createButton(
-            parent=self, text="Back", command=lambda: controller.showFrame("MainMenu")
+        # Human part
+        humanFrame = CTkFrame(master=self, fg_color=appBG, border_width=0)
+        humanFrame.pack(pady=10, padx=20, fill="x")
+
+        humanLabel = CTkLabel(
+            master=humanFrame,
+            text="Human:",
+            font=CTkFont(family="Consolas", size=20),
+            text_color=appText1,
         )
-        back.pack()
+        humanLabel.grid(row=0, column=0, sticky="w", padx=5)
+
+        self.humanEntry = CTkEntry(
+            master=humanFrame,
+            corner_radius=12,
+            border_width=2,
+            fg_color=appBG,
+            border_color=appHighlight1,
+            placeholder_text="enter text...",
+            font=CTkFont(family="Consolas", size=16),
+        )
+        self.humanEntry.grid(row=0, column=1, sticky="ew", padx=5)
+        humanFrame.grid_columnconfigure(index=1, weight=1)
+
+        # AI part
+        AiFrame = CTkFrame(master=self, fg_color=appBG, border_width=0)
+        AiFrame.pack(pady=10, padx=20, fill="x")
+
+        AiLabel = CTkLabel(
+            master=AiFrame,
+            text="AI:   ",
+            font=CTkFont(family="Consolas", size=20),
+            text_color=appText1,
+        )
+        AiLabel.grid(row=0, column=0, sticky="w", padx=5)
+
+        self.AiEntry = CTkEntry(
+            master=AiFrame,
+            corner_radius=12,
+            border_width=2,
+            fg_color=appBG,
+            border_color=appHighlight1,
+            placeholder_text="enter text...",
+            font=CTkFont(family="Consolas", size=16),
+        )
+        self.AiEntry.grid(row=0, column=1, sticky="ew", padx=5)
+        AiFrame.grid_columnconfigure(index=1, weight=1)
+
+        buttonFrame = CTkFrame(master=self, fg_color=appBG, border_width=0)
+        buttonFrame.pack(pady=30, padx=20)
+
+        backButton = createButton(
+            parent=buttonFrame,
+            text="Back",
+            command=lambda: controller.showFrame("MainMenu"),
+        )
+        backButton.grid(row=0, column=0, padx=5)
+
+        saveButton = createButton(parent=buttonFrame, text="Save", command=None)
+        saveButton.grid(row=0, column=1, padx=5)
+
+
+# ----------------------------------------------------------------------------------------------#
+#                                        Converastion                                           #
+# ----------------------------------------------------------------------------------------------#
 
 
 class BeginConversation(CTkFrame):
