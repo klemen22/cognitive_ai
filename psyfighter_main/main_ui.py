@@ -1,6 +1,7 @@
 from customtkinter import *
 from chroma_memory_dump import retrieveMemory
 from chroma_update_memory import updateMemory, getTextID, deleteMemory
+from chroma_manager import addLongTermMemory
 
 # color scheme
 appBG = "#16161a"
@@ -94,9 +95,9 @@ class MainMenu(CTkFrame):
             command=lambda: controller.showFrame("EditMemory"),
         )
 
-        button1.pack(pady=5)
-        button2.pack(pady=5)
-        button3.pack(pady=5)
+        button1.pack(pady=6)
+        button2.pack(pady=6)
+        button3.pack(pady=6)
 
 
 # ----------------------------------------------------------------------------------------------#
@@ -118,22 +119,28 @@ class EditMemory(CTkFrame):
             master=self,
             fg_color=appBG,
         )
-        self.scrollFrame.pack(pady=10, expand=True, fill="both")
+        self.scrollFrame.pack(pady=10, expand=True, fill="both", anchor="n")
 
-        self.refresh_btn = createButton(
-            parent=self, text="Refresh", command=self.loadMemory
+        # buttons
+        buttonFrame = CTkFrame(master=self, fg_color=appBG, border_width=0)
+        buttonFrame.pack(pady=20, anchor="n")
+
+        refreshButton = createButton(
+            parent=buttonFrame, text="Refresh", command=self.loadMemory
         )
-        self.refresh_btn.pack(pady=5)
+        refreshButton.grid(row=0, column=0, padx=5)
 
-        self.backButton = createButton(
-            parent=self,
+        backButton = createButton(
+            parent=buttonFrame,
             text="Back",
             command=lambda: self.controller.showFrame("MainMenu"),
         )
-        self.backButton.pack(pady=10)
+        backButton.grid(row=0, column=1, padx=5)
 
-        self.deleteButton = createButton(parent=self, text="Delete")
-        self.deleteButton.pack(pady=10)
+        deleteButton = createButton(
+            parent=buttonFrame, text="Delete", command=self.deleteSelectedMemory
+        )
+        deleteButton.grid(row=0, column=2, padx=5)
 
         self.bind("<Configure>", self.onResize)
         self.loadMemory()
@@ -180,6 +187,11 @@ class EditMemory(CTkFrame):
         for child in self.scrollFrame.winfo_children():
             child.configure(border_width=0)
         button.configure(border_width=2)
+
+    def deleteSelectedMemory(self):
+        deleteMemory(textID=self.selectedMemory)
+        print(f"Deleted memory with ID: {self.selectedMemory}")
+        self.loadMemory()
 
     def onResize(self, event):
         window_width = self.winfo_width()
@@ -313,8 +325,28 @@ class AddMemory(CTkFrame):
         )
         backButton.grid(row=0, column=0, padx=5)
 
-        saveButton = createButton(parent=buttonFrame, text="Save", command=None)
+        saveButton = createButton(
+            parent=buttonFrame, text="Save", command=self.addMemory
+        )
         saveButton.grid(row=0, column=1, padx=5)
+
+    def addMemory(self):
+        humanInput = self.humanEntry.get()
+        aiInput = self.AiEntry.get()
+        saveText = ""
+
+        if humanInput != "":
+            saveText = f"Human: {humanInput}"
+        else:
+            saveText = f"Human: "
+
+        if aiInput != "":
+            saveText = saveText + f"\nAI: {aiInput}"
+        else:
+            saveText = saveText = f"\n AI: "
+
+        print(f"Final text to save: \n\n{saveText}")
+        addLongTermMemory(text=saveText)
 
 
 # ----------------------------------------------------------------------------------------------#

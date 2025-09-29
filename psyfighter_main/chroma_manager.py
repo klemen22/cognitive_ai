@@ -2,6 +2,7 @@ import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from langchain_core.messages import HumanMessage
+import uuid
 
 chromaClient = chromadb.PersistentClient(path="./data/psyfighter_memory/chroma")
 collection = chromaClient.get_or_create_collection(name="psyfighter_long_term_memory")
@@ -53,7 +54,7 @@ def addLongTermMemory(text: str):
         SaveText = str(text)
 
     embeddedText = embedText(SaveText)
-    documentID = f"doc_{len(collection.get()["ids"])}"
+    documentID = f"doc_{uuid.uuid4().hex[:8]}"
     collection.add(ids=[documentID], documents=[text], embeddings=[embeddedText])
     return
 
