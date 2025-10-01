@@ -2,10 +2,16 @@ import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from langchain_core.messages import HumanMessage
+import json
+from itertools import zip_longest
 import uuid
 
 chromaClient = chromadb.PersistentClient(path="./data/psyfighter_memory/chroma")
 collection = chromaClient.get_or_create_collection(name="psyfighter_long_term_memory")
+
+# ----------------------------------------------------------------------------------------------#
+#                                         Add memory                                            #
+# ----------------------------------------------------------------------------------------------#
 
 # embedding
 embedding = SentenceTransformer("all-MiniLM-L6-v2")
@@ -59,6 +65,11 @@ def addLongTermMemory(text: str):
     return
 
 
+# ----------------------------------------------------------------------------------------------#
+#                                         Get memory                                            #
+# ----------------------------------------------------------------------------------------------#
+
+
 def getReleventMemories(query: str, n=3):
     results = collection.query(query_texts=[query], n_results=n)
 
@@ -66,3 +77,56 @@ def getReleventMemories(query: str, n=3):
         return [doc for doc in results["documents"][0]]
     else:
         return []
+
+
+def retrieveMemory():
+    allData = collection.get()
+    finalData = []
+
+    for y in allData["documents"]:
+        finalData.append(y)
+
+    return finalData
+
+
+# ----------------------------------------------------------------------------------------------#
+#                                        Update dump                                            #
+# ----------------------------------------------------------------------------------------------#
+
+
+def updateMemory(textID, newText):
+    collection.update(ids=textID, documents=newText)
+    return
+
+
+def getTextID(text):
+    textID = collection.query(query_texts=[text], n_results=1)
+    return textID["ids"][0][0]
+
+
+def deleteMemory(textID):
+    collection.delete(ids=[textID])
+    return
+
+
+# ----------------------------------------------------------------------------------------------#
+#                                        Memory dump                                            #
+# ----------------------------------------------------------------------------------------------#
+
+output = "./data/psyfighter_memory/chroma_dump/chroma_memory_dump.json"
+
+
+def memoryDump():
+    allData = collection.get()
+    filteredData = []
+
+    for x, y in zip_longest(allData["ids"], allData["documents"]):
+        print(f"\n{x}, {y}")
+        filteredData.append(y)
+
+    with open(output, "w", encoding="utf-8") as w:
+        json.dump(filteredData, w, ensure_ascii=False, indent=2)
+
+    print(f"\nMemory dump was saved to: {output}")
+
+    return filteredData
