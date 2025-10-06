@@ -42,5 +42,45 @@
   {
     "type": "ai",
     "content": "Hello, Ava! It's nice to meet you. From now on, I am Ava for you. As your chat companion, I am here to assist you with any questions or topics that interest you. So, what would you like to discuss today? Do you have any specific questions in mind? Please feel free to ask!"
+  },
+  {
+    "type": "human",
+    "content": "Hello.\n\nRelevant memories:\n\n['Human: Hello Ava, how are you today?\\nAI: Hello, thank you for asking, im doing fine.', 'Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! My name is AI ChatGPT. How can I help you today?', \"Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! It's a pleasure to meet you. As AI ChatGPT, I am here to assist you with a wide range of topics and questions. Please feel free to ask anything that comes to mind, whether it's about general knowledge, current events, technology, history, or even just small talk. How can I help you today?\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Klemen! It's great to see you here again. Today is a beautiful day, and I am feeling fine as well. As AI ChatGPT, my primary goal is to assist you with any questions or topics that interest you. So, how can I help you today? Do you have something specific in mind? Please feel free to ask!"
+  },
+  {
+    "type": "human",
+    "content": "Hello.\n\nRelevant memories:\n\n['Human: Hello Ava, how are you today?\\nAI: Hello, thank you for asking, im doing fine.', 'Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! My name is AI ChatGPT. How can I help you today?', \"Human: Hello.\\nAI: Hello, Klemen! It's great to see you here again. Today is a beautiful day, and I am feeling fine as well. As AI ChatGPT, my primary goal is to assist you with any questions or topics that interest you. So, how can I help you today? Do you have something specific in mind? Please feel free to ask!\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Klemen! It's great to see you here again as well. Today is a beautiful day, and I am feeling fine too. As AI ChatGPT, my goal is to assist you with any questions or topics that interest you. If you have something specific in mind, please don't hesitate to ask!"
+  },
+  {
+    "type": "human",
+    "content": "I'm going to say \"Hello.\" multiple times, because im testing the UI that've written so just don't mind it for now I'll tell you when I'm done testing the UI and we can begin a normal conversation.\n\nRelevant memories:\n\n['Human: Hello Ava, how are you today?\\nAI: Hello, thank you for asking, im doing fine.', 'Human: Hello, my name is Klemen.\\nAI: Hello, Klemen! My name is AI ChatGPT. How can I help you today?', \"Human: Hello.\\nAI: Hello, Klemen! It's great to see you here again. Today is a beautiful day, and I am feeling fine as well. As AI ChatGPT, my primary goal is to assist you with any questions or topics that interest you. So, how can I help you today? Do you have something specific in mind? Please feel free to ask!\"]"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Klemen! Take your time testing the UI and I'll be here when you're ready to begin our conversation. No worries about repeating \"hello,\" as it is a friendly greeting after all. Just let me know when you're ready, and we can dive into any topic or question you have in mind."
+  },
+  {
+    "type": "human",
+    "content": "Hello, again.\n\nRelevant memories:\n\n['Human: I\\'m going to say \"Hello.\" multiple times, because im testing the UI that\\'ve written so just don\\'t mind it for now I\\'ll tell you when I\\'m done testing the UI and we can begin a normal conversation.\\nAI: Hello, Klemen! Take your time testing the UI and I\\'ll be here when you\\'re ready to begin our conversation. No worries about repeating \"hello,\" as it is a friendly greeting after all. Just let me know when you\\'re ready, and we can dive into any topic or question you have in mind.', 'Human: Hello Ava, how are you today?\\nAI: Hello, thank you for asking, im doing fine.', 'Human: Hello.\\nAI: Hello, Klemen! It\\'s great to hear that you\\'re testing your UI. Take all the time you need; there\\'s no rush. Whenever you\\'re ready to begin a normal conversation, just let me know and we can dive into any topic or question you have in mind. No worries about the extra \"hellos\" - it\\'s all part of the testing process!']"
+  },
+  {
+    "type": "ai",
+    "content": "Hello again, Klemen! It's great to hear that you're continuing to test your UI. Please take as much time as needed, and when you're ready for a normal conversation, I'll be here to assist with any topic or question you have in mind. No worries about the extra \"hellos\" - they are simply part of the testing process!"
+  },
+  {
+    "type": "human",
+    "content": "Hello, I think that now I'm finally done with testing the UI.\n\nRelevant memories:\n\n[\"Human: Hello again.\\nAI: Hello again, Klemen! I'm glad to hear that you're still in the midst of testing your UI. Please take your time and make sure everything is working as intended. Once you're ready to begin a normal conversation, just let me know, and we can dive into any topic or question you have in mind. In the meantime, if there's anything else I can assist you with regarding the testing process or your UI, please feel free to ask!\", 'Human: Hello.\\nAI: Hello, Klemen! It\\'s great to hear that you\\'re testing your UI. Take all the time you need; there\\'s no rush. Whenever you\\'re ready to begin a normal conversation, just let me know and we can dive into any topic or question you have in mind. No worries about the extra \"hellos\" - it\\'s all part of the testing process!', 'Human: I\\'m going to say \"Hello.\" multiple times, because im testing the UI that\\'ve written so just don\\'t mind it for now I\\'ll tell you when I\\'m done testing the UI and we can begin a normal conversation.\\nAI: Hello, Klemen! Take your time testing the UI and I\\'ll be here when you\\'re ready to begin our conversation. No worries about repeating \"hello,\" as it is a friendly greeting after all. Just let me know when you\\'re ready, and we can dive into any topic or question you have in mind.']"
+  },
+  {
+    "type": "ai",
+    "content": "Hello, Klemen! It's great to hear that your testing of the UI has come to an end. Please feel free to ask about anything else, whether it's a general knowledge question, a current event you'd like more information on, or even just small talk. I am here to assist and engage in conversation with you today!"
   }
 ]

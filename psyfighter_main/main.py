@@ -6,6 +6,8 @@ from chroma_manager import (
     deleteMemory,
     retrieveMemory,
 )
+from llm_interaction import proccessInput, endConversation
+from PIL import Image
 
 # color scheme
 appBG = "#16161a"
@@ -86,7 +88,7 @@ class MainMenu(CTkFrame):
         button1 = createButton(
             parent=self,
             text="Begin Conversation",
-            command=lambda: controller.showFrame("BeginConversation"),
+            command=lambda: controller.showFrame("ConversationWindow"),
         )
 
         button2 = createButton(
@@ -364,18 +366,153 @@ class AddMemory(CTkFrame):
 #                                        Converastion                                           #
 # ----------------------------------------------------------------------------------------------#
 
+# TODO: fix memory management at the end of conversation
 
-class BeginConversation(CTkFrame):
+
+class ConversationWindow(CTkFrame):
     def __init__(self, parent, controller):
         super().__init__(parent, fg_color=appBG)
 
-        label = createLabel(self, "Conversation window", size=30)
-        label.pack(pady=40)
+        self.controller = controller
 
-        back = createButton(
-            parent=self, text="Back", command=lambda: controller.showFrame("MainMenu")
+        # back button
+        backButton = createButton(
+            parent=self, text="Back", command=self.closeConversation
         )
-        back.pack()
+        backButton.pack(padx=(10, 0), pady=(20, 0), anchor="w")
+
+        # title
+        label = createLabel(self, "Conversation window", size=30)
+        label.pack(pady=(30, 40))
+
+        # chat window
+        self.chatFrame = CTkScrollableFrame(master=self, fg_color=appBG)
+        self.chatFrame.pack(pady=20, padx=20, expand=True, fill="both")
+
+        # input
+        inputFrame = CTkFrame(master=self, fg_color=appBG)
+        inputFrame.pack(pady=(0, 20), padx=20, fill="x")
+
+        self.entry = CTkEntry(
+            master=inputFrame,
+            fg_color=appBG,
+            placeholder_text="Enter text...",
+            border_color=appHighlight1,
+            border_width=2,
+            corner_radius=10,
+            font=CTkFont(family="Consolas", size=16),
+            text_color=appText1,
+        )
+        self.entry.pack(fill="x", expand=True, side="left", padx=(0, 10))
+
+        sendButton = createButton(
+            parent=inputFrame, text="Send", command=self.sendMessage
+        )
+        sendButton.pack(side="right")
+
+        # avatars
+        self.userAvatar = CTkImage(
+            dark_image=Image.open("./data/assets/icons8-user-100.png"),
+            size=(40, 40),
+        )
+        self.aiAvatar = CTkImage(
+            dark_image=Image.open("./data/assets/icons8-cursor-ai-100.png"),
+            size=(40, 40),
+        )
+
+    def sendMessage(self):
+        print("Sending message...")
+        userText = self.entry.get().strip()
+
+        if not userText:
+            return
+
+        self.addEntry(sender="USER", text=userText)
+        self.entry.delete(first_index=0, last_index="end")
+
+        # AI response
+        aiResponse = proccessInput(userInput=userText)
+        self.addEntry(sender="AI", text=aiResponse)
+
+    def addEntry(self, sender, text):
+
+        entry = CTkFrame(
+            master=self.chatFrame,
+            fg_color=appBG,
+        )
+        wrap_Length = 400  # default wrap lenght
+        window_Width = self.winfo_toplevel().winfo_width()
+
+        if window_Width > 200:
+            wrap_Length = int(window_Width * 0.6)
+
+        if sender == "USER":
+            avatar = CTkLabel(master=entry, text="", image=self.userAvatar)
+            avatar.pack(side="right", padx=5, pady=5, anchor="ne")
+
+            textFrameUSER = CTkFrame(
+                master=entry,
+                fg_color=appBG,
+                border_color=appHighlight2,
+                border_width=2,
+                corner_radius=12,
+            )
+
+            message = CTkLabel(
+                master=textFrameUSER,
+                text=text,
+                fg_color=appBG,
+                text_color=appText1,
+                font=CTkFont(family="Consolas", size=16),
+                wraplength=wrap_Length,
+                padx=5,
+                pady=5,
+                anchor="e",
+                justify="left",
+            )
+
+            message.pack(padx=5, pady=5)
+            textFrameUSER.pack(side="right")
+            entry.pack(fill="x", pady=10, padx=(0, 10), anchor="e")
+        else:
+            avatar = CTkLabel(master=entry, text="", image=self.aiAvatar)
+            avatar.pack(side="left", padx=5, pady=5, anchor="ne")
+
+            textFrameAI = CTkFrame(
+                master=entry,
+                fg_color=appBG,
+                border_color=appHighlight2,
+                border_width=2,
+                corner_radius=12,
+            )
+
+            message = CTkLabel(
+                master=textFrameAI,
+                text=text,
+                fg_color=appBG,
+                text_color=appText1,
+                font=CTkFont(family="Consolas", size=16),
+                wraplength=wrap_Length,
+                padx=5,
+                pady=5,
+                anchor="w",
+                justify="left",
+            )
+            message.pack(padx=5, pady=5)
+            textFrameAI.pack(side="left")
+            entry.pack(fill="x", pady=10, padx=10, anchor="w")
+        self.chatFrame.update_idletasks()
+
+        try:
+            self.chatFrame._parent_canvas.yview_moveto(1.0)
+        except E:
+            pass
+
+        return
+
+    def closeConversation(self):
+        endConversation()
+        self.controller.showFrame("MainMenu")
 
 
 # ----------------------------------------------------------------------------------------------#
@@ -397,7 +534,7 @@ class App(CTk):
 
         self.frames = {}
 
-        for F in (MainMenu, BeginConversation, AddMemory, EditMemory, editText):
+        for F in (MainMenu, ConversationWindow, AddMemory, EditMemory, editText):
             pageName = F.__name__
             frame = F(container, self)
             self.frames[pageName] = frame
